@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            display: block;
+            background-color: #ffffff7b; /* 设置画布背景色 */
+            width: 360px; /* 设置画布宽度 */
+            height: 640px; /* 设置画布高度 */
+        }
+        @font-face {
+        font-family: 'CustomFont';
+        src: url('ChillKai_Big5.ttf') format('truetype');
+    }
+        /* 设置文本描边效果 */
+        .text-style {
+            font-size: 80px;
+            font-family: cursive;
+            color: #b00c0c9e; /* 设置文本颜色 */
+            text-shadow: -5px -5px 0 black, 5px -5px 0 black, -5px 5px 0 black, 5px 5px 0 black; /* 添加文本描边 */
+        }
+
+        .small-text {
+            font-size: 40px;
+            font-family: cursive;
+            color: #b90d0d9e; /* 设置文本颜色 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const context = canvas.getContext("2d");
+
+        // 创建一个Image对象并加载图片
+        const image = new Image();
+        image.src = "images/image.jpg"; // 请替换为你的图片路径
+
+        // 图像加载完成后，绘制图像和文本框
+        image.onload = function () {
+            canvas.width = 360; // 设置画布宽度
+            canvas.height = 640; // 设置画布高度
+            const targetWidth = 452;
+            const targetHeight = 653;
+            const scaleFactor = Math.min(targetWidth / image.width, targetHeight / image.height);
+            const scaledWidth = image.width * scaleFactor;
+            const scaledHeight = image.height * scaleFactor;
+            const offsetX = (canvas.width - scaledWidth) / 2;
+            const offsetY = (canvas.height - scaledHeight) / 2;
+
+            // 绘制图像
+            context.drawImage(image, offsetX, offsetY, scaledWidth, scaledHeight);
+
+            // 绘制透明文本框
+            const textBoxX = 0; // 文本框的 X 坐标
+            const textBoxY = 154; // 文本框的 Y 坐标
+            const textBoxWidth = 360; // 文本框的宽度
+            const textBoxHeight =486; // 文本框的高度
+            const textBoxColor = "rgba(255, 255, 255, 0.5)"; // 透明白色
+            context.fillStyle = textBoxColor;
+            context.fillRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+
+            // 绘制透明文本框
+            const textBoxX2 = 240; // 文本框的 X 坐标
+            const textBoxY2 = 490; // 文本框的 Y 坐标
+            const textBoxWidth2 = 140; // 文本框的宽度
+            const textBoxHeight2 = 50; // 文本框的高度
+            const textBoxColor2 = "rgba(194, 114, 114)"; // 透明
+            const textBoxX3 = 240; // 文本框的 X 坐标
+            const textBoxY3 = 560; // 文本框的 Y 坐标
+            const textBoxWidth3 = 140; // 文本框的宽度
+            const textBoxHeight3 = 50; // 文本框的高度
+            CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+                if (w < 2 * r) r = w / 2;
+                if (h < 2 * r) r = h / 2;
+                this.beginPath();
+                this.moveTo(x + r, y);
+                this.arcTo(x + w, y, x + w, y + h, r);
+                this.arcTo(x + w, y + h, x, y + h, r);
+                this.arcTo(x, y + h, x, y, r);
+                this.arcTo(x, y, x + w, y, r);
+                this.closePath();
+                return this;
+            };
+
+            context.fillStyle = textBoxColor2;
+
+            // 绘制圆角文本框
+            context.roundRect(textBoxX2, textBoxY2, textBoxWidth2, textBoxHeight2, 10).fill();
+            context.roundRect(textBoxX3, textBoxY3, textBoxWidth3, textBoxHeight3, 10).fill();
+            const text1 = "规则介绍";
+            const text2 = "奖励分说明";
+            const s1="双对:10分";
+            const s2 = "三连:10分";
+            const s3="葫芦:20分";
+            const s4="四连:40分";
+            const s5="五连:100分";
+            const s6="小顺子:30分";
+            const s7="大顺子:60分";
+            const text5 = "上一页";
+            const text6 = "返回";
+            const x1 = 60;
+            const y1 = 115;
+            const x2 = 20;
+            
+            context.font = `60px cursive`;
+            context.lineWidth = 4;
+            context.fillStyle = "#c52c2c9e";
+            context.strokeStyle = "#000"; // 黑色描边
+            context.strokeText(text1, x1, y1);
+            context.fillText(text1, x1, y1);
+
+            context.font="36px cursive";
+            context.fillStyle="#000000";
+            context.fillText(text2,textBoxX+90,textBoxY+30);
+            
+            const overlayImage = new Image();
+            overlayImage.src = "images/1.png"; // 请替换为你的图片路径
+            overlayImage.onload = function () {
+            const overlayWidth = 262; // 设置叠加图片的宽度
+            const overlayHeight = (overlayImage.height / overlayImage.width) * overlayWidth; // 根据宽度等比缩放高度
+
+            // 计算叠加图片的位置，放在文本框的右上角
+            const overlayX = textBoxX + textBoxWidth - overlayWidth; // X坐标
+            const overlayY = textBoxY+40; // Y坐标
+
+            // 绘制叠加图片
+            context.drawImage(overlayImage, overlayX, overlayY, overlayWidth, overlayHeight);
+            };
+            const overlayImage2 = new Image();
+            overlayImage2.src = "images/2.png"; // 请替换为你的图片路径
+            overlayImage2.onload = function () {
+            const overlayWidth = 262; // 设置叠加图片的宽度
+            const overlayHeight = (overlayImage2.height / overlayImage2.width) * overlayWidth; // 根据宽度等比缩放高度
+
+            // 计算叠加图片的位置，放在文本框的右上角
+            const overlayX = textBoxX + textBoxWidth - overlayWidth; // X坐标
+            const overlayY = textBoxY+80; // Y坐标
+
+            // 绘制叠加图片
+            context.drawImage(overlayImage2, overlayX, overlayY, overlayWidth, overlayHeight);
+            };
+            const overlayImage3 = new Image();
+            overlayImage3.src = "images/3.png"; // 请替换为你的图片路径
+            overlayImage3.onload = function () {
+            const overlayWidth = 262; // 设置叠加图片的宽度
+            const overlayHeight = (overlayImage3.height / overlayImage3.width) * overlayWidth; // 根据宽度等比缩放高度
+
+            // 计算叠加图片的位置，放在文本框的右上角
+            const overlayX = textBoxX + textBoxWidth - overlayWidth; // X坐标
+            const overlayY = textBoxY+120; // Y坐标
+
+            // 绘制叠加图片
+            context.drawImage(overlayImage3, overlayX, overlayY, overlayWidth, overlayHeight);
+            };
+            const overlayImage4 = new Image();
+            overlayImage4.src = "images/4.png"; // 请替换为你的图片路径
+            overlayImage4.onload = function () {
+            const overlayWidth = 262; // 设置叠加图片的宽度
+            const overlayHeight = (overlayImage4.height / overlayImage4.width) * overlayWidth; // 根据宽度等比缩放高度
+
+            // 计算叠加图片的位置，放在文本框的右上角
+            const overlayX = textBoxX + textBoxWidth - overlayWidth; // X坐标
+            const overlayY = textBoxY+160; // Y坐标
+
+            // 绘制叠加图片
+            context.drawImage(overlayImage4, overlayX, overlayY, overlayWidth, overlayHeight);
+            };
+            const overlayImage5 = new Image();
+            overlayImage5.src = "images/5.png"; // 请替换为你的图片路径
+            overlayImage5.onload = function () {
+            const overlayWidth = 262; // 设置叠加图片的宽度
+            const overlayHeight = (overlayImage5.height / overlayImage5.width) * overlayWidth; // 根据宽度等比缩放高度
+
+            // 计算叠加图片的位置，放在文本框的右上角
+            const overlayX = textBoxX + textBoxWidth - overlayWidth; // X坐标
+            const overlayY = textBoxY+200; // Y坐标
+
+            // 绘制叠加图片
+            context.drawImage(overlayImage5, overlayX, overlayY, overlayWidth, overlayHeight);
+            };
+            const overlayImage6 = new Image();
+            overlayImage6.src = "images/6.png"; // 请替换为你的图片路径
+            overlayImage6.onload = function () {
+            const overlayWidth = 262; // 设置叠加图片的宽度
+            const overlayHeight = (overlayImage6.height / overlayImage6.width) * overlayWidth; // 根据宽度等比缩放高度
+
+            // 计算叠加图片的位置，放在文本框的右上角
+            const overlayX = textBoxX + textBoxWidth - overlayWidth; // X坐标
+            const overlayY = textBoxY+240; // Y坐标
+
+            // 绘制叠加图片
+            context.drawImage(overlayImage6, overlayX, overlayY, overlayWidth, overlayHeight);
+            };
+            const overlayImage7 = new Image();
+            overlayImage7.src = "images/7.png"; // 请替换为你的图片路径
+            overlayImage7.onload = function () {
+            const overlayWidth = 262; // 设置叠加图片的宽度
+            const overlayHeight = (overlayImage7.height / overlayImage7.width) * overlayWidth; // 根据宽度等比缩放高度
+
+            // 计算叠加图片的位置，放在文本框的右上角
+            const overlayX = textBoxX + textBoxWidth - overlayWidth; // X坐标
+            const overlayY = textBoxY+280; // Y坐标
+
+            // 绘制叠加图片
+            context.drawImage(overlayImage7, overlayX, overlayY, overlayWidth, overlayHeight);
+            };
+            context.font="18px 'CustomFont',cursive";
+            context.fillStyle="#000000";
+            context.fillText(s1,textBoxX+5,textBoxY+60);
+            context.fillText(s2,textBoxX+5,textBoxY+100);
+            context.fillText(s3,textBoxX+5,textBoxY+140);
+            context.fillText(s4,textBoxX+5,textBoxY+180);
+            context.fillText(s5,textBoxX+1,textBoxY+220);
+            context.fillText(s6,textBoxX+1,textBoxY+260);
+            context.fillText(s7,textBoxX+1,textBoxY+300);
+            context.font="36px cursive";
+            context.fillStyle="#000000";
+            const textWidth = context.measureText(text5).width;
+            const textHeight = 20; // 假设文本高度为20px
+            // 计算文本的居中坐标
+            const centerX = textBoxX2 + (textBoxWidth2 - textWidth) / 2;
+            const centerY = textBoxY2 + (textBoxHeight2 + textHeight) / 2;
+
+            // 在文本框内居中绘制文本
+            context.fillText(text5, centerX, centerY);
+            const textWidth3 = context.measureText(text6).width;
+
+            // 计算文本的居中坐标
+            const centerX3 = textBoxX3 + (textBoxWidth3 - textWidth3) / 2;
+            const centerY3 = textBoxY3 + (textBoxHeight3 + textHeight) / 2;
+
+            // 在文本框内居中绘制文本
+            context.fillText(text6, centerX3, centerY3);
+            canvas.addEventListener("click", function (event) {
+                const clickX = event.clientX - canvas.getBoundingClientRect().left;
+                const clickY = event.clientY - canvas.getBoundingClientRect().top;
+
+                // 检查点击是否在文本框 textBox2 的区域内
+                if (
+                    clickX >= textBoxX2 &&
+                    clickX <= textBoxX2 + textBoxWidth2 &&
+                    clickY >= textBoxY2 &&
+                    clickY <= textBoxY2 + textBoxHeight2
+                ) {
+                    // 在此处添加要跳转的页面 URL
+                    window.location.href = "3.html";
+                }
+            });
+            // 添加点击事件监听器到文本框 textBox2
+            canvas.addEventListener("click", function (event) {
+                const clickX = event.clientX - canvas.getBoundingClientRect().left;
+                const clickY = event.clientY - canvas.getBoundingClientRect().top;
+
+                // 检查点击是否在文本框 textBox2 的区域内
+                if (
+                    clickX >= textBoxX3 &&
+                    clickX <= textBoxX3 + textBoxWidth3 &&
+                    clickY >= textBoxY3 &&
+                    clickY <= textBoxY3 + textBoxHeight3
+                ) {
+                    // 在此处添加要跳转的页面 URL
+                    window.location.href = "1.html";
+                }
+            });
+            
+        }
+
+    </script>
+</body>
+</html>

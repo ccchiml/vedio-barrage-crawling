@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            display: block;
+            background-color: #ffffff7b; /* 设置画布背景色 */
+            width: 360px; /* 设置画布宽度 */
+            height: 640px; /* 设置画布高度 */
+        }
+        /* 设置文本描边效果 */
+        .text-style {
+            font-size: 80px;
+            font-family: cursive;
+            color: #b00c0c9e; /* 设置文本颜色 */
+            text-shadow: -5px -5px 0 black, 5px -5px 0 black, -5px 5px 0 black, 5px 5px 0 black; /* 添加文本描边 */
+        }
+
+        .small-text {
+            font-size: 40px;
+            font-family: cursive;
+            color: #b00c0c9e; /* 设置文本颜色 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const context = canvas.getContext("2d");
+
+        // 创建一个Image对象并加载图片
+        const image = new Image();
+        image.src = "images/image (6).png"; // 请替换为你的图片路径
+
+        // 图像加载完成后，绘制图像
+        image.onload = function () {
+            canvas.width = 360; // 设置画布宽度
+            canvas.height = 640; // 设置画布高度
+            const targetWidth = 452;
+            const targetHeight = 653;
+            const scaleFactor = Math.min(targetWidth / image.width, targetHeight / image.height);
+            const scaledWidth = image.width * scaleFactor;
+            const scaledHeight = image.height * scaleFactor;
+            const offsetX = (canvas.width - scaledWidth) / 2;
+            const offsetY = (canvas.height - scaledHeight) / 2;
+
+            context.drawImage(image, offsetX, offsetY, scaledWidth, scaledHeight);
+
+            const textBoxX = 80; // 文本框的 X 坐标
+            const textBoxY = 70; // 文本框的 Y 坐标
+            const textBoxWidth = 229; // 文本框的宽度
+            const textBoxHeight = 89; // 文本框的高度
+            const textBoxColor = "rgba(166, 166, 166,0.6)"; // 透明
+            const textBoxY2 = 180; // 文本框的 Y 坐标
+            const textBoxY3 = 290;
+            const textBoxY4 = 400;
+            CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+                if (w < 2 * r) r = w / 2;
+                if (h < 2 * r) r = h / 2;
+                this.beginPath();
+                this.moveTo(x + r, y);
+                this.arcTo(x + w, y, x + w, y + h, r);
+                this.arcTo(x + w, y + h, x, y + h, r);
+                this.arcTo(x, y + h, x, y, r);
+                this.arcTo(x, y, x + w, y, r);
+                this.closePath();
+                return this;
+            };
+
+            context.fillStyle = textBoxColor;
+            // 创建线性渐变对象
+            const gradient = context.createLinearGradient(textBoxX, textBoxY, textBoxX + textBoxWidth, textBoxY + textBoxHeight);
+            gradient.addColorStop(0, "#D6B6B6"); // 渐变起始颜色
+            gradient.addColorStop(1, "#B85151"); // 渐变结束颜色
+
+            context.strokeStyle = gradient; // 设置描边颜色为线性渐变
+            context.lineWidth = 4; // 设置描边宽度
+            // 绘制圆角文本框
+            context.roundRect(textBoxX, textBoxY4, textBoxWidth, textBoxHeight, 20).fill();
+            context.stroke();
+            context.roundRect(textBoxX, textBoxY3, textBoxWidth, textBoxHeight, 20).fill();
+            context.stroke();
+            context.roundRect(textBoxX, textBoxY2, textBoxWidth, textBoxHeight, 20).fill();
+            context.stroke();
+            context.roundRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight, 20).fill();
+            context.stroke();
+            const text1 = "本地对战";
+            const text2 = "在线匹配";
+            const text3 = "好友对战";
+            const text4 = "人机对战";
+            const text5 = "返回";
+            context.font="50px cursive";
+            context.fillStyle="#000000";
+            const textWidth = context.measureText(text1).width;
+            const textHeight = 30; // 假设文本高度为20px
+            // 计算文本的居中坐标
+            const centerX = textBoxX + (textBoxWidth - textWidth) / 2;
+            const centerY = textBoxY + (textBoxHeight + textHeight) / 2;
+
+            // 在文本框内居中绘制文本
+            context.fillText(text1, centerX, centerY);
+
+            const textWidth2 = context.measureText(text2).width;
+            // 计算文本的居中坐标
+            const centerX2 = textBoxX + (textBoxWidth - textWidth2) / 2;
+            const centerY2 = textBoxY2 + (textBoxHeight + textHeight) / 2;
+
+            // 在文本框内居中绘制文本
+            context.fillText(text2, centerX2, centerY2);
+            const textWidth3 = context.measureText(text3).width;
+            // 计算文本的居中坐标
+            const centerX3 = textBoxX + (textBoxWidth - textWidth3) / 2;
+            const centerY3 = textBoxY3 + (textBoxHeight + textHeight) / 2;
+
+            // 在文本框内居中绘制文本
+            context.fillText(text3, centerX3, centerY3);
+            const textWidth4 = context.measureText(text4).width;
+            // 计算文本的居中坐标
+            const centerX4 = textBoxX + (textBoxWidth - textWidth4) / 2;
+            const centerY4 = textBoxY4 + (textBoxHeight + textHeight) / 2;
+
+            // 在文本框内居中绘制文本
+            context.fillText(text4, centerX4, centerY4);
+
+            const textBoxX2 = 240; // 文本框的 X 坐标
+            const textBoxY5 = 535; // 文本框的 Y 坐标
+            const textBoxWidth2 = 140; // 文本框的宽度
+            const textBoxHeight2 = 50; // 文本框的高度
+            const textBoxColor2 = "rgba(194, 114, 114)"; // 透明
+            CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+                if (w < 2 * r) r = w / 2;
+                if (h < 2 * r) r = h / 2;
+                this.beginPath();
+                this.moveTo(x + r, y);
+                this.arcTo(x + w, y, x + w, y + h, r);
+                this.arcTo(x + w, y + h, x, y + h, r);
+                this.arcTo(x, y + h, x, y, r);
+                this.arcTo(x, y, x + w, y, r);
+                this.closePath();
+                return this;
+            };
+
+            context.fillStyle = textBoxColor2;
+
+            // 绘制圆角文本框
+            context.roundRect(textBoxX2, textBoxY5, textBoxWidth2, textBoxHeight2, 10).fill();
+
+            const textWidth5 = context.measureText(text5).width;
+            const textHeight2 = 20; // 假设文本高度为20px
+            // 计算文本的居中坐标
+            const centerX5 = textBoxX2 + (textBoxWidth2 - textWidth5) / 2;
+            const centerY5 = textBoxY5 + (textBoxHeight2 + textHeight2) / 2;
+            context.font="36px cursive";
+            context.fillStyle="#000000";
+            // 在文本框内居中绘制文本
+            context.fillText(text5, centerX5, centerY5);
+            canvas.addEventListener("click", function (event) {
+                const clickX = event.clientX - canvas.getBoundingClientRect().left;
+                const clickY = event.clientY - canvas.getBoundingClientRect().top;
+
+                // 检查点击是否在文本框 textBox2 的区域内
+                if (
+                    clickX >= textBoxX2 &&
+                    clickX <= textBoxX2 + textBoxWidth2 &&
+                    clickY >= textBoxY5 &&
+                    clickY <= textBoxY5 + textBoxHeight2
+                ) {
+                    // 在此处添加要跳转的页面 URL
+                    window.location.href = "welcome.html";
+                }
+            });
+            canvas.addEventListener("click", function (event) {
+                const clickX = event.clientX - canvas.getBoundingClientRect().left;
+                const clickY = event.clientY - canvas.getBoundingClientRect().top;
+
+                // 检查点击是否在文本框 textBox2 的区域内
+                if (
+                    clickX >= textBoxX &&
+                    clickX <= textBoxX + textBoxWidth &&
+                    clickY >= textBoxY &&
+                    clickY <= textBoxY + textBoxHeight
+                ) {
+                    // 在此处添加要跳转的页面 URL
+                    window.location.href = "stargame/loading.html";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

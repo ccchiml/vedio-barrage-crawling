@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            display: block;
+            background-color: #ffffff7b; /* 设置画布背景色 */
+            width: 360px; /* 设置画布宽度 */
+            height: 640px; /* 设置画布高度 */
+        }
+        @font-face {
+        font-family: 'CustomFont';
+        src: url('ChillKai_Big5.ttf') format('truetype');
+    }
+        /* 设置文本描边效果 */
+        .text-style {
+            font-size: 80px;
+            font-family: cursive;
+            color: #b00c0c9e; /* 设置文本颜色 */
+            text-shadow: -5px -5px 0 black, 5px -5px 0 black, -5px 5px 0 black, 5px 5px 0 black; /* 添加文本描边 */
+        }
+
+        .small-text {
+            font-size: 40px;
+            font-family: cursive;
+            color: #b90d0d9e; /* 设置文本颜色 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const context = canvas.getContext("2d");
+
+        // 创建一个Image对象并加载图片
+        const image = new Image();
+        image.src = "images/image.jpg"; // 请替换为你的图片路径
+
+        // 图像加载完成后，绘制图像和文本框
+        image.onload = function () {
+            canvas.width = 360; // 设置画布宽度
+            canvas.height = 640; // 设置画布高度
+            const targetWidth = 452;
+            const targetHeight = 653;
+            const scaleFactor = Math.min(targetWidth / image.width, targetHeight / image.height);
+            const scaledWidth = image.width * scaleFactor;
+            const scaledHeight = image.height * scaleFactor;
+            const offsetX = (canvas.width - scaledWidth) / 2;
+            const offsetY = (canvas.height - scaledHeight) / 2;
+
+            // 绘制图像
+            context.drawImage(image, offsetX, offsetY, scaledWidth, scaledHeight);
+
+            // 绘制透明文本框
+            const textBoxX = 0; // 文本框的 X 坐标
+            const textBoxY = 154; // 文本框的 Y 坐标
+            const textBoxWidth = 360; // 文本框的宽度
+            const textBoxHeight =486; // 文本框的高度
+            const textBoxColor = "rgba(255, 255, 255, 0.5)"; // 透明白色
+            context.fillStyle = textBoxColor;
+            context.fillRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+
+            // 绘制透明文本框
+            const textBoxX2 = 240; // 文本框的 X 坐标
+            const textBoxY2 = 490; // 文本框的 Y 坐标
+            const textBoxWidth2 = 140; // 文本框的宽度
+            const textBoxHeight2 = 50; // 文本框的高度
+            const textBoxColor2 = "rgba(194, 114, 114)"; // 透明
+            const textBoxX3 = 240; // 文本框的 X 坐标
+            const textBoxY3 = 560; // 文本框的 Y 坐标
+            const textBoxWidth3 = 140; // 文本框的宽度
+            const textBoxHeight3 = 50; // 文本框的高度
+            CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+                if (w < 2 * r) r = w / 2;
+                if (h < 2 * r) r = h / 2;
+                this.beginPath();
+                this.moveTo(x + r, y);
+                this.arcTo(x + w, y, x + w, y + h, r);
+                this.arcTo(x + w, y + h, x, y + h, r);
+                this.arcTo(x, y + h, x, y, r);
+                this.arcTo(x, y, x + w, y, r);
+                this.closePath();
+                return this;
+            };
+
+            context.fillStyle = textBoxColor2;
+
+            // 绘制圆角文本框
+            context.roundRect(textBoxX2, textBoxY2, textBoxWidth2, textBoxHeight2, 10).fill();
+            context.roundRect(textBoxX3, textBoxY3, textBoxWidth3, textBoxHeight3, 10).fill();
+            const text1 = "规则介绍";
+            const text2 = "进入游戏，选择游戏模式\n设置游戏局数和玩家个人\n筹码数，初始倍率双方均\n为1";
+            const text3 = "每一局游戏内，每位玩家\n均有五个骰子，都有三轮\n投掷机会。玩家轮流投掷\n骰子";
+            const text4 = "前两次投掷骰子之后可以\n选择锁定0~5个骰子，锁定\n的骰子位于选定区域不再\n改变，即下次不可再投掷\n锁定的骰子"
+            const text5 = "返回";
+            const text6 = "下一页";
+            const x1 = 60;
+            const y1 = 115;
+            const x2 = 20;
+            context.font = `60px cursive`;
+            context.lineWidth = 4;
+            context.fillStyle = "#c52c2c9e";
+            context.strokeStyle = "#000"; // 黑色描边
+            context.strokeText(text1, x1, y1);
+            context.fillText(text1, x1, y1);
+
+            const svgIcon = new Image();
+            svgIcon.src = "images/a-1.svg"; // 请替换为您的SVG图标路径
+            svgIcon.onload = function () {
+                context.drawImage(svgIcon, textBoxX + 10, textBoxY + 10, 30, 30);
+            };
+ // 分行绘制文本
+            // 分行绘制文本
+            const maxTextWidth = textBoxWidth - x2 * 2; // 最大文本宽度
+            const lineHeight = 25; // 每行文本的行高
+            const lines = text2.split("\n"); // 按换行符分割成多行文本
+
+            let y = textBoxY + 4 + lineHeight; // Y 坐标起始位置
+            context.font = "25px 'CustomFont', cursive";
+            context.fillStyle = "#000000"; // 设置文本颜色
+
+            for (const line of lines) {
+                context.fillText(line, textBoxX + 50, y);
+                y += lineHeight;
+            }
+            const svgIcon2 = new Image();
+            svgIcon2.src = "images/icon_r9zqgja8ri8/2.svg"; // 请替换为您的SVG图标路径
+            svgIcon2.onload = function () {
+                context.drawImage(svgIcon2, textBoxX + 10, textBoxY + 115, 30, 30);
+            };
+            // 分行绘制文本
+            const lines2 = text3.split("\n"); // 按换行符分割成多行文本
+
+            let y2 = textBoxY + 110 + lineHeight; // Y 坐标起始位置
+            context.font = "25px 'CustomFont', cursive";
+            context.fillStyle = "#000000"; // 设置文本颜色
+
+            for (const line of lines2) {
+                context.fillText(line, textBoxX + 50, y2);
+                y2 += lineHeight;
+            }
+            const svgIcon3 = new Image();
+            svgIcon3.src = "images/icon_r9zqgja8ri8/3.svg"; // 请替换为您的SVG图标路径
+            svgIcon3.onload = function () {
+                context.drawImage(svgIcon3, textBoxX + 10, textBoxY + 218, 30, 30);
+            };
+            // 分行绘制文本
+            const lines3 = text4.split("\n"); // 按换行符分割成多行文本
+
+            let y3 = textBoxY + 213 + lineHeight; // Y 坐标起始位置
+            context.font = "25px 'CustomFont', cursive";
+            context.fillStyle = "#000000"; // 设置文本颜色
+
+            for (const line of lines3) {
+                context.fillText(line, textBoxX + 50, y3);
+                y3 += lineHeight;
+            }
+            context.font="36px cursive";
+            context.fillStyle="#000000";
+            const textWidth = context.measureText(text5).width;
+            const textHeight = 20; // 假设文本高度为20px
+
+            // 计算文本的居中坐标
+            const centerX = textBoxX2 + (textBoxWidth2 - textWidth) / 2;
+            const centerY = textBoxY2 + (textBoxHeight2 + textHeight) / 2;
+
+            // 在文本框内居中绘制文本
+            context.fillText(text5, centerX, centerY);
+            const textWidth3 = context.measureText(text6).width;
+
+            // 计算文本的居中坐标
+            const centerX3 = textBoxX3 + (textBoxWidth3 - textWidth3) / 2;
+            const centerY3 = textBoxY3 + (textBoxHeight3 + textHeight) / 2;
+
+            // 在文本框内居中绘制文本
+            context.fillText(text6, centerX3, centerY3);
+            // 添加点击事件监听器到文本框 textBox2
+            canvas.addEventListener("click", function (event) {
+                const clickX = event.clientX - canvas.getBoundingClientRect().left;
+                const clickY = event.clientY - canvas.getBoundingClientRect().top;
+
+                // 检查点击是否在文本框 textBox2 的区域内
+                if (
+                    clickX >= textBoxX2 &&
+                    clickX <= textBoxX2 + textBoxWidth2 &&
+                    clickY >= textBoxY2 &&
+                    clickY <= textBoxY2 + textBoxHeight2
+                ) {
+                    // 在此处添加要跳转的页面 URL
+                    window.location.href = "1.html";
+                }
+            });
+            // 添加点击事件监听器到文本框 textBox2
+            canvas.addEventListener("click", function (event) {
+                const clickX = event.clientX - canvas.getBoundingClientRect().left;
+                const clickY = event.clientY - canvas.getBoundingClientRect().top;
+
+                // 检查点击是否在文本框 textBox2 的区域内
+                if (
+                    clickX >= textBoxX3 &&
+                    clickX <= textBoxX3 + textBoxWidth3 &&
+                    clickY >= textBoxY3 &&
+                    clickY <= textBoxY3 + textBoxHeight3
+                ) {
+                    // 在此处添加要跳转的页面 URL
+                    window.location.href = "3.html";
+                }
+            });
+
+
+        }
+    </script>
+</body>
+</html>

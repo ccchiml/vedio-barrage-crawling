@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative; /* 使Canvas和input可以重叠显示 */
+        }
+        canvas {
+            display: block;
+            background-color: #ffffff7b; /* 设置画布背景色 */
+            width: 360px; /* 设置画布宽度 */
+            height: 640px; /* 设置画布高度 */
+            position: absolute; /* 使Canvas覆盖在input上面 */
+        }
+        .input-style {
+            font-size: 24px; /* 设置输入框字体大小 */
+            padding: 10px; /* 增加内边距 */
+            border: 2px solid #ccc; /* 设置边框样式 */
+            border-radius: 10px; /* 设置边框圆角 */
+            background-color: #fff; /* 设置背景色 */
+            color: #121212; /* 设置文本颜色 */
+            position: relative; /* 设置输入框的位置为相对定位 */
+        }
+        .input1 {
+            top: -105px; /* 调整输入框的上边距以使其与Canvas对齐 */
+            left: 210px; /* 调整输入框的左边距以使其与Canvas对齐 */
+        }
+        .input2 {
+            top: 10px; /* 调整输入框的上边距以使其与Canvas对齐 */
+            left: -40px; /* 调整输入框的左边距以使其与Canvas对齐 */
+        }
+        .input3 {
+            top: 120px; /* 调整输入框的上边距以使其与Canvas对齐 */
+            left: -290px; /* 调整输入框的左边距以使其与Canvas对齐 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <input type="number" id="gameCount1" class="input-style input1" value="1" min="1" max="1000000000000">
+    <input type="number" id="gameCount2" class="input-style input2" value="1000" min="100" max="1000000000000">
+    <input type="number" id="gameCount3" class="input-style input3" value="1000" min="100" max="1000000000000">
+    <script src="loading.js"></script>
+</body>
+</html>
