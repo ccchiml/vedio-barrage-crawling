@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative; /* 使Canvas和input可以重叠显示 */
+        }
+     
+        #myCanvas {
+            display: block;
+            background-image: url("images/image (8).png"); /* 设置 Canvas 的背景图像路径 */
+            background-size: cover; /* 控制背景图像的尺寸适应 Canvas */
+            background-repeat: no-repeat; /* 防止图像重复 */
+            width: 360px; /* 设置 Canvas 宽度 */
+            height: 640px; /* 设置 Canvas 高度 */
+            position: absolute; /* 使 Canvas 覆盖在其他元素上面 */
+}
+
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script src="Man-machine battle.js"></script>
+</body>
+</html>
